@@ -38,6 +38,9 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-buildx-
 
+    -  name: Build the Docker image
+    -  run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)     
+    
     - name: Run Docker Compose
       run: docker-compose up -d
 
