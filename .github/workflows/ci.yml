@@ -47,8 +47,8 @@ jobs:
       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
 
     - uses: actions/checkout@v2
-    - name: Build the Docker nodejs image
-      run: docker build . --file docker-compose.yml --tag my-image-name:$(date +%s)  
+    - name: Build the Docker Compose image
+      run: docker build . --file docker-compose.yml  
 
     - name: Run Docker Compose
       run: docker-compose up -d
