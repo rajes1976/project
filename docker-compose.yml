@@ -1,5 +1,5 @@
 #services:  
-  proxy-server:
+  #proxy-server:
     container_name: proxy-server
     restart: always
     image: nginx:latest
