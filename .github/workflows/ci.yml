@@ -46,10 +46,10 @@ jobs:
     - name: Build the Docker nodejs image
       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
 
-    - name: Install Docker
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y docker.io
+    #- name: Install Docker
+      #run: |
+        #sudo apt-get update
+        #sudo apt-get install -y docker.io
 
     - name: Install Docker Compose
       run: |
