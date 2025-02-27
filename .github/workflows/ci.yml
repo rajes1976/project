@@ -39,8 +39,16 @@ jobs:
           ${{ runner.os }}-buildx-
 
     - uses: actions/checkout@v2
-    - name: Build the Docker image
+    - name: Build the Docker Web image
       run: docker build . --file dockerfile --tag my-image-name:$(date +%s)
+
+    - uses: actions/checkout@v2
+    - name: Build the Docker nodejs image
+      run: docker build . --file dockerfile1 --tag my-image-name:$(date +%s)
+
+    - uses: actions/checkout@v2
+    - name: Build the Docker nodejs image
+      run: docker build . --file docker-compose.yml --tag my-image-name:$(date +%s)  
 
     - name: Run Docker Compose
       run: docker-compose up -d
