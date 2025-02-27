@@ -30,6 +30,7 @@ jobs:
     - name: Build Docker image
       uses: actions/cache@v2
       with:
+        path: ~/caches
         context: .
         push: true
         tags: rajes1976/project:v1.0
