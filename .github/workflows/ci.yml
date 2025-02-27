@@ -28,7 +28,7 @@ jobs:
           ${{ runner.os }}-buildx-
 
     - name: Build Docker image
-      #uses: docker-compose
+      uses: actions/cache@v2
       with:
         context: .
         push: true
