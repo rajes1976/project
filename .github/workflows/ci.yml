@@ -64,7 +64,7 @@ jobs:
       #run: docker build . --file docker-compose.yml --tag my-image-name:$(date +%s)      
 
     - name: Run Docker Compose
-      run: docker-compose up -d
+      run: docker-compose up --build
 
     - name: Validate configuration
       run: docker-compose config
