@@ -21,6 +21,12 @@ services:
     restart: always
     build:
       dockerfile: webserver/Dockerfile
+    deploy:
+      replicas: 3
+      #update_config:
+        #parallelism: 3
+      restart_policy:
+        condition: on-failure
     environment:
       - TZ=Europe/Amsterdam
     volumes:
