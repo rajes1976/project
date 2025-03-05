@@ -25,8 +25,8 @@ services:
       replicas: 3
       #update_config:
         #parallelism: 3
-      restart_policy:
-        condition: on-failure
+      #restart_policy:
+        #condition: on-failure
     environment:
       - TZ=Europe/Amsterdam
     volumes:
