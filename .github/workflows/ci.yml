@@ -41,18 +41,23 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-buildx-
 
-    - uses: actions/checkout@v3
-    - name: Build the Docker Web image
-      run: docker build . --file dockerfile --tag my-image-name:$(date +%s)
+    #- uses: actions/checkout@v3
+    #- name: Build the Docker Web image
+      #run: docker build . --file dockerfile --tag my-image-name:$(date +%s)
 
-    - uses: actions/checkout@v3
-    - name: Build the Docker nodejs image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    #- uses: actions/checkout@v3
+    #- name: Build the Docker nodejs image
+      #run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
 
     #- name: Install Docker
       #run: |
         #sudo apt-get update
         #sudo apt-get install -y docker.io
+
+    - name: Install Docker using Docker's official script
+      run: |
+          curl -fsSL https://get.docker.com -o get-docker.sh
+          sudo sh get-docker.sh
 
     - name: Install Docker Compose
       run: |
