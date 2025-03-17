@@ -82,4 +82,5 @@ jobs:
       run: |
         docker-compose up -d
         sleep 10
-        docker exec proxy-server ping -c 4 webserver
+        #docker exec proxy-server ping -c 4 webserver
+        docker exec proxy-server curl -I http://webserver
