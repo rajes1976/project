@@ -66,12 +66,12 @@ jobs:
           curl -fsSL https://get.docker.com -o get-docker.sh
           sudo sh get-docker.sh
 
-    - name: Build and push Docker image
-      run: |
-        docker build . -t rajes1976/project:latest
-        docker build . -t rajes1976/project:${{ github.sha }}
-        docker push rajes1976/project:latest
-        docker push rajes1976/project:${{ github.sha }}
+    #- name: Build and push Docker image
+      #run: |
+        #docker build . -t rajes1976/project:latest
+        #docker build . -t rajes1976/project:${{ github.sha }}
+        #docker push rajes1976/project:latest
+        #docker push rajes1976/project:${{ github.sha }}
 
     - name: Install Docker Compose
       run: |
