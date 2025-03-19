@@ -36,7 +36,7 @@ jobs:
         path: ~/caches
         context: .
         push: true
-        tags: rajes1976/project:v1.0
+        tags: rajes1976/project:latest
         key: ${{ runner.os }}-buildx-${{ github.sha }}
         restore-keys: |
           ${{ runner.os }}-buildx-
