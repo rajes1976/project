@@ -20,58 +20,43 @@ jobs:
       uses: actions/setup-node@v3
 
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+      uses: docker/setup-buildx-action@v2
 
-    - name: Cache Docker layers
-      uses: actions/cache@v3
-      with:
-        path: ~/caches
-        key: ${{ runner.os }}-buildx-${{ github.sha }}
-        restore-keys: |
-          ${{ runner.os }}-buildx-
-
-    - name: Build Docker image
-      uses: actions/cache@v3
-      with:
-        path: ~/caches
-        context: .
-        push: true
-        tags: rajes1976/project:latest
-        key: ${{ runner.os }}-buildx-${{ github.sha }}
-        restore-keys: |
-          ${{ runner.os }}-buildx-
-    
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-    
+
+    - name: Build Docker image
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        push: true
+        tags: |
+          rajes1976/project:latest
+          rajes1976/project:${{ github.sha }}
+        cache-from: type=registry,ref=rajes1976/project:latest
+        cache-to: type=inline
+
   deploy:
     runs-on: self-hosted
+
     steps:
-      - name: Install Docker using Docker's official script
-        run: |
-          curl -fsSL https://get.docker.com -o get-docker.sh
-          sudo sh get-docker.sh
-          
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Install Docker Compose
         run: |
           sudo curl -L "https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
           docker-compose --version
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-    
-      - name: Run Docker Compose
-        run: docker-compose up -d
-
-      - name: Validate configuration
+      - name: Validate Docker Compose
         run: docker-compose config
 
+      - name: Deploy with Docker Compose
+        run: docker-compose up -d
+
       - name: Test network connectivity
-        run: |
-          docker-compose up -d
-          sleep 10
-          docker exec proxy-server curl -I http://webserver
+        run: docker exec proxy-server curl -I http://webserver
