@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: CI_CD Pipeline
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - master
 
 jobs:
-  build:
+  Continuous-Integration:
     runs-on: ubuntu-latest
 
     steps:
@@ -72,3 +72,14 @@ jobs:
         docker-compose up -d
         sleep 10
         docker exec proxy-server curl -I http://webserver
+
+  Continuous-Delivery:
+    needs: Continuous-Integration
+    runs-on: self-hosted
+ 
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+ 
+      - name: Run docker-compose
+        run: docker-compose up -d
