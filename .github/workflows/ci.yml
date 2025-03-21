@@ -60,12 +60,12 @@ jobs:
 
     #- name: Set up Docker Buildx
       #uses: docker/setup-buildx-action@v2
-    
-    - name: Run Docker Compose
-      run: docker-compose up -d
 
     - name: Validate configuration
       run: docker-compose config
+    
+    - name: Run Docker Compose
+      run: docker-compose up -d
 
     - name: Test network connectivity
       run: |
