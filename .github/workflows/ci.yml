@@ -27,6 +27,7 @@ jobs:
       with:
         path: ~/caches
         key: ${{ runner.os }}-buildx-${{ github.sha }}
+        lookup-only: true
         restore-keys: |
           ${{ runner.os }}-buildx-
           ${{ runner.os }}-
