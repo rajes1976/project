@@ -33,16 +33,9 @@ jobs:
     - name: Build Docker image
       uses: docker/build-push-action@v2
       with:
-        context: .
-        push: true
-        tags: rajes1976/project:latest
-        cache-from: type=local,src=~/caches
-        cache-to: type=local,dest=~/caches
-        #key: ${{ runner.os }}-buildx-${{ github.sha }}
-        #restore-keys: |
-          #${{ runner.os }}-buildx-
-          #${{ runner.os }}-
-          #buildx-
+         context: .
+         push: true
+         tags: rajes1976/project:v1
     
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
