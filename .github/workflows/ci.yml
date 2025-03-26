@@ -25,10 +25,10 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
   
-    - name: Install Docker using Docker's official script
-      run: |
-          curl -fsSL https://get.docker.com -o get-docker.sh
-          sudo sh get-docker.sh
+    #- name: Install Docker using Docker's official script
+      #run: |
+          #curl -fsSL https://get.docker.com -o get-docker.sh
+          #sudo sh get-docker.sh
 
     - name: Install Docker Compose
       run: |
