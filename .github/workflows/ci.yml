@@ -41,7 +41,7 @@ jobs:
     -  name: Tag Docker image
        run: |
         IMAGE_NAME="rajes1976/testdemo:v1"
-        docker tag docker-compose.yml $IMAGE_NAME
+        docker tag web rajesh1976/testdemo:v1 $IMAGE_NAME
     
     - name: Push Docker image to Docker Hub
       run: |
