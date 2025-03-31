@@ -34,9 +34,12 @@ jobs:
     - name: Validate configuration
       run: docker-compose config
 
+    #- name: Build Docker image
+      #run: |
+        #docker-compose build
+
     - name: Build Docker image
-      run: |
-        docker-compose build
+      run: docker build -t web:latest .
 
     -  name: Tag Docker image
        run: |
