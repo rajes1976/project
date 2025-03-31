@@ -39,7 +39,7 @@ jobs:
         #docker-compose build
 
     - name: Build Docker image
-      run: docker buildx -t web:latest .
+      run: docker buildx web:latest .
 
     -  name: Tag Docker image
        run: |
