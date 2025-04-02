@@ -34,22 +34,18 @@ jobs:
     - name: Validate configuration
       run: docker-compose config
 
-    #- name: Build Docker image
-      #run: |
-        #docker-compose build
-
-    #- name: Build Docker image
-      #run: docker buildx web:latest .
-
-    #-  name: Tag Docker image
-       #run: |
-        #IMAGE_NAME="rajes1976/testdemo:v1"
-        #docker tag web $IMAGE_NAME
-    
-    #- name: Push Docker image to Docker Hub
-      #run: |
-        #IMAGE_NAME="rajes1976/testdemo:v1"
-        #docker push $IMAGE_NAME
+    - name: Build Docker Images
+      run: docker-compose build
+	  
+    - name: Tag Docker Images
+      run: |
+        docker tag webserver:latest rajes1976/testdemo:webserver
+        docker tag jsapp:latest rajes1976/testdemo:jsapp
+		
+    - name: Push Docker Images to Docker Hub
+      run: |
+        docker push rajes1976/testdemo:webserver
+        docker push rajes1976/testdemo:jsapp
     
     - name: Run Docker Compose
       run: docker-compose up -d
