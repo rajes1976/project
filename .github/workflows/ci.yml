@@ -76,6 +76,10 @@ jobs:
         run: |
           docker pull rajes1976/webserver:v1
           docker pull rajes1976/jsapp:v1
+
+      - name: Pull Docker Images from Docker Hub
+        run: |
+          docker-compose pull
       
       - name: Run docker-compose
         run: docker-compose up -d
