@@ -41,7 +41,7 @@ jobs:
       run: |
         docker tag webserver:latest rajes1976/testdemo:webserver
         docker tag jsapp:latest rajes1976/testdemo:jsapp
-	
+
     - name: Push Docker Images to Docker Hub
       run: |
         docker push rajes1976/testdemo:webserver
