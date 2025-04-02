@@ -43,8 +43,8 @@ jobs:
         sleep 10
         docker exec proxy-server curl -I http://webserver
          
-    - name: Build Docker Images
-      run: docker-compose build
+    #- name: Build Docker Images
+      #run: docker-compose build
 
     - name: List Docker images
       run: docker images
@@ -81,8 +81,8 @@ jobs:
         run: |
           docker-compose pull
 
-      -  name: Build Docker images
-         run: docker-compose build
+      #-  name: Build Docker images
+         #run: docker-compose build
       
       - name: Run docker-compose
         run: docker-compose up -d --force-recreate
