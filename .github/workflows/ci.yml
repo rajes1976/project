@@ -33,22 +33,7 @@ jobs:
    
     - name: Validate configuration
       run: docker-compose config
-
-    - name: Build Docker Images
-      run: docker-compose build
-    - name: List Docker images
-      run: docker images
       
-    - name: Tag Docker Images
-      run: |
-        docker tag project_nodejs:latest rajes1976/testdemo:webserver
-        docker tag project_webserver:latest rajes1976/testdemo:jsapp
-
-    - name: Push Docker Images to Docker Hub
-      run: |
-        docker push rajes1976/testdemo:webserver
-        docker push rajes1976/testdemo:jsapp
-    
     - name: Run Docker Compose
       run: docker-compose up -d
 
@@ -57,6 +42,20 @@ jobs:
         docker-compose up -d
         sleep 10
         docker exec proxy-server curl -I http://webserver
+
+    - name: Build Docker Images
+      run: docker-compose build
+    - name: List Docker images
+      run: docker images
+      
+    - name: Push Docker Images to Docker Hub
+      run: |
+        IMAGE_NAME_1="rajes1976/webserver:latest"
+        IMAGE_NAME_2="rajes1976/jsapp:latest"
+        docker tag project_webserver $IMAGE_NAME_1
+        docker tag project_nodejs $IMAGE_NAME_2  
+        docker push $IMAGE_NAME_1
+        docker push $IMAGE_NAME_2 
 
   #Continuous-Delivery:
     #needs: Continuous-Integration
