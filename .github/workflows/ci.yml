@@ -79,7 +79,7 @@ jobs:
 
       - name: Pull Docker Images from Docker Hub
         run: |
-          docker-compose pull --no-cache
+          docker-compose pull
       
       - name: Run docker-compose
         run: docker-compose up -d
