@@ -36,6 +36,8 @@ jobs:
 
     - name: Build Docker Images
       run: docker-compose build
+    - name: List Docker images
+      run: docker images
       
     - name: Tag Docker Images
       run: |
