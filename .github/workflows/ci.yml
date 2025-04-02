@@ -43,11 +43,12 @@ jobs:
         sleep 10
         docker exec proxy-server curl -I http://webserver
 
-    - name: Build Docker Images
-      run: docker-compose build
     - name: List Docker images
       run: docker images
       
+    - name: Build Docker Images
+      run: docker-compose build
+          
     - name: Push Docker Images to Docker Hub
       run: |
         IMAGE_NAME_1="rajes1976/webserver:latest"
