@@ -19,8 +19,9 @@ services:
   webserver:
     container_name: webserver
     restart: always
-    build:
-      dockerfile: webserver/Dockerfile
+    image: rajes1976/webserver:v1
+    #build:
+      #dockerfile: webserver/Dockerfile
     #deploy:
       #replicas: 3
       #update_config:
@@ -42,8 +43,9 @@ services:
   nodejs:
     container_name: jsapp
     restart: always
-    build:
-      dockerfile: nodejs/Dockerfile
+    image: rajes1976/jsapp:v1
+    #build:
+      #dockerfile: nodejs/Dockerfile
     environment:
       - TZ=Europe/Amsterdam
     networks:
