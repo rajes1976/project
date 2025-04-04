@@ -31,6 +31,18 @@ jobs:
           sudo chmod +x /usr/local/bin/docker-compose
           docker-compose --version
    
+    - name: List Docker images
+      run: docker images
+          
+    - name: Push Docker Images to Docker Hub
+      run: |
+        IMAGE_NAME_1="rajes1976/webserver:v2"
+        IMAGE_NAME_2="rajes1976/jsapp:v2"
+        #docker tag rajes1976/webserver:v2 $IMAGE_NAME_1
+        #docker tag rajes1976/jsapp:v2 $IMAGE_NAME_2  
+        docker push $IMAGE_NAME_1
+        docker push $IMAGE_NAME_2 
+    
     - name: Validate configuration
       run: docker-compose config
       
@@ -44,19 +56,7 @@ jobs:
         docker exec proxy-server curl -I http://webserver
          
     #- name: Build Docker Images
-      #run: docker-compose build
-
-    - name: List Docker images
-      run: docker images
-          
-    - name: Push Docker Images to Docker Hub
-      run: |
-        IMAGE_NAME_1="rajes1976/webserver:v2"
-        IMAGE_NAME_2="rajes1976/jsapp:v2"
-        #docker tag rajes1976/webserver:v2 $IMAGE_NAME_1
-        #docker tag rajes1976/jsapp:v2 $IMAGE_NAME_2  
-        docker push $IMAGE_NAME_1
-        docker push $IMAGE_NAME_2 
+      #run: docker-compose build  
 
   Continuous-Delivery:
     needs: Continuous-Integration
