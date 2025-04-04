@@ -53,8 +53,8 @@ jobs:
       run: |
         IMAGE_NAME_1="rajes1976/webserver:v2"
         IMAGE_NAME_2="rajes1976/jsapp:v2"
-        docker tag rajes1976/webserver:v2 $IMAGE_NAME_1
-        docker tag rajes1976/jsapp:v2 $IMAGE_NAME_2  
+        #docker tag rajes1976/webserver:v2 $IMAGE_NAME_1
+        #docker tag rajes1976/jsapp:v2 $IMAGE_NAME_2  
         docker push $IMAGE_NAME_1
         docker push $IMAGE_NAME_2 
 
@@ -74,8 +74,8 @@ jobs:
 
       - name: Pull Docker Images from Docker Hub
         run: |
-          docker pull rajes1976/webserver:v1
-          docker pull rajes1976/jsapp:v1
+          docker pull rajes1976/webserver:latest
+          docker pull rajes1976/jsapp:latest
 
       - name: Pull Docker Images from Docker Hub
         run: |
