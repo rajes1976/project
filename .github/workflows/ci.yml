@@ -3,10 +3,10 @@ name: CI_CD Pipeline
 on:
   push:
     branches:
-      - master
+      - testcicd
   pull_request:
     branches:
-      - master
+      - testcicd
 
 jobs:
   Continuous-Integration:
