@@ -51,8 +51,7 @@ jobs:
         docker pull rajes1976/jsweb:jsapp-v1
     
     - name: Run Docker Compose
-      run: docker-compose up -d
-      
+      run: docker-compose up -d      
     - name: Test network connectivity
       run: |
         docker-compose up -d
