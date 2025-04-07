@@ -31,11 +31,11 @@ jobs:
           sudo chmod +x /usr/local/bin/docker-compose
           docker-compose --version
    
-    - name: Validate configuration
-      run: docker-compose config
-
     - name: Build Docker Images
       run: docker-compose build
+
+    - name: Validate configuration
+      run: docker-compose config
       
     - name: List Docker images
       run: docker images
