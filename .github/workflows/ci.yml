@@ -43,8 +43,8 @@ jobs:
         IMAGE_NAME_2="project_nodejs"
         #docker tag project_webserver:latest $IMAGE_NAME_1
         #docker tag project_jsapp:latest $IMAGE_NAME_2  
-        docker push $IMAGE_NAME_1
-        docker push $IMAGE_NAME_2 
+        docker push rajes1976/webserver $IMAGE_NAME_1
+        docker push rajes1976/jsapp $IMAGE_NAME_2 
     
     - name: Validate configuration
       run: docker-compose config
