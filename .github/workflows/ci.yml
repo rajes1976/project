@@ -42,8 +42,8 @@ jobs:
       
     - name: Tag Docker Images
       run: |
-        docker tag webserver rajes1976/testdemo:webserver
-        docker tag nodejs rajes1976/testdemo:jsapp
+        docker tag project_webserver rajes1976/testdemo:webserver
+        docker tag project_nodejs rajes1976/testdemo:jsapp
     - name: Push Docker Images to Docker Hub
       run: |
         docker push rajes1976/testdemo:webserver
