@@ -47,8 +47,8 @@ jobs:
         
     - name: Push Docker Images to Docker Hub
       run: |
-        docker push rajes1976/web:webserver
-        docker push rajes1976/jsweb:jsapp
+        docker push rajes1976/web:webserver-v1
+        docker push rajes1976/jsweb:jsapp-v1
     
     - name: Run Docker Compose
       run: docker-compose up -d
