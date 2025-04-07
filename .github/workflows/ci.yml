@@ -52,7 +52,7 @@ jobs:
     
     - name: Run Docker Compose
       run: docker-compose up -d
-
+      
     - name: Test network connectivity
       run: |
         docker-compose up -d
