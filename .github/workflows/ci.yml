@@ -33,18 +33,10 @@ jobs:
    
     - name: Validate configuration
       run: docker-compose config
-
-    #- name: Build Docker Images
-      #run: docker-compose build
-      
+         
     - name: List Docker images
       run: docker images
-      
-    #- name: Tag Docker Images
-      #run: |
-        #docker tag project_webserver rajes1976/web:webserver
-        #docker tag project_nodejs rajes1976/jsweb:jsapp
-        
+           
     - name: Push Docker Images to Docker Hub
       run: |
         docker pull rajes1976/web:webserver-v1
@@ -66,18 +58,6 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
-
-      #- name: Pull Docker Images from Docker Hub
-        #run: |
-          #docker pull rajes1976/web:webserver-v1
-          #docker pull rajes1976/jsweb:jsapp-v1
-
-      #- name: Pull Docker Images from Docker Hub
-        #run: |
-          #docker-compose pull
-          
-      #-  name: Build Docker images
-         #run: docker-compose build
- 
+       
       - name: Run docker-compose
         run: docker-compose up -d
