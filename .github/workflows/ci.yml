@@ -52,6 +52,7 @@ jobs:
     
     - name: Run Docker Compose
       run: docker-compose up -d      
+    
     - name: Test network connectivity
       run: |
         docker-compose up -d
@@ -75,8 +76,8 @@ jobs:
         #run: |
           #docker-compose pull
           
-      -  name: Build Docker images
-         run: docker-compose build
+      #-  name: Build Docker images
+         #run: docker-compose build
  
-      - name: Run docker-compose
-        run: docker-compose up -d
+      #- name: Run docker-compose
+        #run: docker-compose up -d
