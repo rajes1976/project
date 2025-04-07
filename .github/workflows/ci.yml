@@ -31,8 +31,8 @@ jobs:
           sudo chmod +x /usr/local/bin/docker-compose
           docker-compose --version
    
-    #- name: Build Docker Images
-      #run: docker-compose build
+    - name: Build Docker Images
+      run: docker-compose build
 
     - name: Validate configuration
       run: docker-compose config
