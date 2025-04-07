@@ -34,14 +34,14 @@ jobs:
     - name: List Docker images
       run: docker images
           
-    - name: Push Docker Images to Docker Hub
-      run: |
-        IMAGE_NAME_1="project_webserver"
-        IMAGE_NAME_2="project_jsapp"
+    #- name: Push Docker Images to Docker Hub
+      #run: |
+        #IMAGE_NAME_1="project_webserver"
+        #IMAGE_NAME_2="project_jsapp"
         #docker tag rajes1976/webserver:v2 $IMAGE_NAME_1
         #docker tag rajes1976/jsapp:v2 $IMAGE_NAME_2  
-        docker push $IMAGE_NAME_1
-        docker push $IMAGE_NAME_2 
+        #docker push $IMAGE_NAME_1
+        #docker push $IMAGE_NAME_2 
     
     - name: Validate configuration
       run: docker-compose config
@@ -72,10 +72,10 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Pull Docker Images from Docker Hub
-        run: |
-          docker pull rajes1976/webserver:latest
-          docker pull rajes1976/jsapp:latest
+      #- name: Pull Docker Images from Docker Hub
+        #run: |
+          #docker pull rajes1976/webserver:latest
+          #docker pull rajes1976/jsapp:latest
 
       - name: Pull Docker Images from Docker Hub
         run: |
