@@ -61,3 +61,36 @@ jobs:
        
       - name: Run docker-compose
         run: docker-compose up -d
+
+  Release-project:
+    name: Create Release
+    needs: Continuous-Delivery
+    runs-on: ubuntu-latest
+      
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+     
+      - name: Archive site content
+        uses: thedoctor0/zip-release@master  
+        with:
+          filename: project.zip
+      
+      - name: Create GitHub release
+        id: create-new-release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.run_number }}
+          release_name: Release ${{ github.run_number }}
+      
+      - name: Upload release asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create-new-release.outputs.upload_url }}
+          asset_path: ./project.zip
+          asset_name: Project-v${{ github.run_number }}.zip
+          asset_content_type: application/zip         
