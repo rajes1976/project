@@ -58,13 +58,26 @@ jobs:
         docker-compose up -d
         sleep 10
         docker exec proxy-server curl -I http://webserver
-  #Continuous-Delivery:
-    #needs: Continuous-Integration
-    #runs-on: self-hosted
+        
+  Continuous-Delivery:
+    needs: Continuous-Integration
+    runs-on: self-hosted
  
-    #steps:
-      #- name: Check out repository
-        #uses: actions/checkout@v3
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Pull Docker Images from Docker Hub
+        run: |
+          docker pull rajes1976/web:webserver-v1
+          docker pull rajes1976/jsweb:jsapp-v1
+
+      - name: Pull Docker Images from Docker Hub
+        run: |
+          docker-compose pull
+          
+      -  name: Build Docker images
+         run: docker-compose build
  
-      #- name: Run docker-compose
-        #run: docker-compose up -d
+      - name: Run docker-compose
+        run: docker-compose up -d
