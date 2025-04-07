@@ -42,13 +42,13 @@ jobs:
       
     - name: Tag Docker Images
       run: |
-        docker tag project_webserver rajes1976/web:webserver
-        docker tag project_nodejs rajes1976/jsweb:jsapp
+        docker tag project_webserver rajes1976/web:webserver-v2
+        docker tag project_nodejs rajes1976/jsweb:jsapp-v2
         
     - name: Push Docker Images to Docker Hub
       run: |
-        docker push rajes1976/web:webserver
-        docker push rajes1976/jsweb:jsapp
+        docker push rajes1976/web:webserver-v2
+        docker push rajes1976/jsweb:jsapp-v2
     
     - name: Run Docker Compose
       run: docker-compose up -d
@@ -67,17 +67,17 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
 
-      - name: Pull Docker Images from Docker Hub
-        run: |
-          docker pull rajes1976/web:webserver-v1
-          docker pull rajes1976/jsweb:jsapp-v1
+      #- name: Pull Docker Images from Docker Hub
+        #run: |
+          #docker pull rajes1976/web:webserver-v1
+          #docker pull rajes1976/jsweb:jsapp-v1
 
-      - name: Pull Docker Images from Docker Hub
-        run: |
-          docker-compose pull
+      #- name: Pull Docker Images from Docker Hub
+        #run: |
+          #docker-compose pull
           
-      -  name: Build Docker images
-         run: docker-compose build
+      #-  name: Build Docker images
+         #run: docker-compose build
  
-      - name: Run docker-compose
-        run: docker-compose up -d
+      #- name: Run docker-compose
+        #run: docker-compose up -d
