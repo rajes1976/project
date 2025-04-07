@@ -34,21 +34,21 @@ jobs:
     - name: Validate configuration
       run: docker-compose config
 
-    - name: Build Docker Images
-      run: docker-compose build
+    #- name: Build Docker Images
+      #run: docker-compose build
       
     - name: List Docker images
       run: docker images
       
-    - name: Tag Docker Images
-      run: |
-        docker tag project_webserver rajes1976/web:webserver
-        docker tag project_nodejs rajes1976/jsweb:jsapp
+    #- name: Tag Docker Images
+      #run: |
+        #docker tag project_webserver rajes1976/web:webserver
+        #docker tag project_nodejs rajes1976/jsweb:jsapp
         
-    - name: Push Docker Images to Docker Hub
+    - name: Pull Docker Images to Docker Hub
       run: |
-        docker push rajes1976/web:webserver
-        docker push rajes1976/jsweb:jsapp
+        docker pull rajes1976/web:webserver-v1
+        docker pull rajes1976/jsweb:jsapp-v1
     
     - name: Run Docker Compose
       run: docker-compose up -d
@@ -59,22 +59,22 @@ jobs:
         sleep 10
         docker exec proxy-server curl -I http://webserver
         
-  Continuous-Delivery:
-    needs: Continuous-Integration
-    runs-on: self-hosted
+  #Continuous-Delivery:
+    #needs: Continuous-Integration
+    #runs-on: self-hosted
  
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v3
+    #steps:
+      #- name: Check out repository
+        #uses: actions/checkout@v3
 
-      - name: Pull Docker Images from Docker Hub
-        run: |
-          docker pull rajes1976/web:webserver-v1
-          docker pull rajes1976/jsweb:jsapp-v1
+      #- name: Pull Docker Images from Docker Hub
+        #run: |
+          #docker pull rajes1976/web:webserver-v1
+          #docker pull rajes1976/jsweb:jsapp-v1
 
-      - name: Pull Docker Images from Docker Hub
-        run: |
-          docker-compose pull
+      #- name: Pull Docker Images from Docker Hub
+        #run: |
+          #docker-compose pull
           
       -  name: Build Docker images
          run: docker-compose build
