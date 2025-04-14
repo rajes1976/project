@@ -47,12 +47,12 @@ jobs:
     - name: Tag Docker Images
       run: |
         docker tag project_webserver rajes1976/web:webserver-v2
-        docker tag project_nodejs rajes1976/jsweb:jsapp-v2
+        docker tag project_nodejs rajes1976/jsweb:nodejs-v2
         
     - name: Push Docker Images to Docker Hub
       run: |
         docker push rajes1976/web:webserver-v2
-        docker push rajes1976/jsweb:jsapp-v2
+        docker push rajes1976/jsweb:nodejs-v2
     
    
         
