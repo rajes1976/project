@@ -33,7 +33,7 @@ jobs:
           docker-compose --version
    
     - name: Validate configuration
-      run: docker-compose.dev config
+      run: docker-compose -f docker-compose.dev.yml config
       
     - name: Run Docker Compose
       run: docker-compose -f docker-compose.dev.yml up -d
