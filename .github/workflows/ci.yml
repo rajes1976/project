@@ -46,11 +46,11 @@ jobs:
     - name: Run Docker Compose
       run: docker-compose up -d
       
-    - name: Extract tag or branch name for Docker tagging
-      id: extract_tag
+    - name: Set image tag (branch or tag)
+      id: vars
       run: |
-        REF_NAME="${GITHUB_REF##*/}"
-        SAFE_TAG=${REF_NAME//\//-}
+        REF=${GITHUB_REF##*/}
+        SAFE_TAG=${REF//\//-}  # vervang eventueel slashes met - voor veiligheid
         echo "TAG_NAME=$SAFE_TAG" >> $GITHUB_ENV
 
     - name: Tag Docker Images
