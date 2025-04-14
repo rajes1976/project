@@ -4,54 +4,13 @@ on:
   push:
     branches:
       - master
-    tags:
-      - 'v*'
 
   pull_request:
     branches:
       - master
 
 jobs:
-  Auto-Version-Tag:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
-    outputs:
-      new_tag: ${{ steps.tag_version.outputs.new_tag }}
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Get latest tag
-        id: get_latest
-        run: |
-          git fetch --tags
-          latest=$(git tag --sort=-v:refname | grep '^v' | head -n 1)
-          echo "LATEST_TAG=$latest" >> $GITHUB_ENV
-
-      - name: Generate next tag
-        id: tag_version
-        run: |
-          if [ -z "$LATEST_TAG" ]; then
-            NEW_TAG="v1.0.0"
-          else
-            VERSION=${LATEST_TAG#v}
-            MAJOR=$(echo $VERSION | cut -d. -f1)
-            MINOR=$(echo $VERSION | cut -d. -f2)
-            PATCH=$(echo $VERSION | cut -d. -f3)
-            PATCH=$((PATCH + 1))
-            NEW_TAG="v$MAJOR.$MINOR.$PATCH"
-          fi
-          echo "new tag will be: $NEW_TAG"
-          echo "new_tag=$NEW_TAG" >> $GITHUB_OUTPUT
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git tag $NEW_TAG
-          git push origin $NEW_TAG
-
   Continuous-Integration:
-    needs: Auto-Version-Tag
-    if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
 
     steps:
@@ -76,24 +35,43 @@ jobs:
     - name: Validate configuration
       run: docker-compose config
 
-    - name: List Docker images
-      run: docker images
-
     - name: Run Docker Compose
       run: docker-compose up -d
 
-    - name: Extract Git tag name
-      run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+    - name: List Docker images
+      run: docker images
 
-    - name: Tag Docker Images
+    # Automatically create a Git tag (v1.0.0 hardcoded for now)
+    - name: Create Git Tag
+      if: github.ref == 'refs/heads/master'
       run: |
-        docker tag project_webserver rajes1976/web:webserver-${TAG_NAME}
-        docker tag project_nodejs rajes1976/jsweb:jsapp-${TAG_NAME}
+        TAG_EXISTS=$(git tag --contains HEAD)
+        if [ -z "$TAG_EXISTS" ]; then
+          NEW_TAG="v1.0.0"
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag $NEW_TAG
+          git push origin $NEW_TAG
+        else
+          echo "Tag already exists: $TAG_EXISTS"
+        fi
+
+    # Fetch latest tag to use for Docker image versioning
+    - name: Get latest Git tag
+      id: get_tag
+      run: |
+        TAG=$(git describe --tags --abbrev=0)
+        echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+    - name: Tag Docker Images with Git tag
+      run: |
+        docker tag project_webserver rajes1976/web:${{ steps.get_tag.outputs.tag }}
+        docker tag project_nodejs rajes1976/jsweb:${{ steps.get_tag.outputs.tag }}
 
     - name: Push Docker Images to Docker Hub
       run: |
-        docker push rajes1976/web:webserver-${TAG_NAME}
-        docker push rajes1976/jsweb:jsapp-${TAG_NAME}
+        docker push rajes1976/web:${{ steps.get_tag.outputs.tag }}
+        docker push rajes1976/jsweb:${{ steps.get_tag.outputs.tag }}
 
     - name: Test network connectivity
       run: |
