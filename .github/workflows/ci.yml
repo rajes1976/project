@@ -43,9 +43,12 @@ jobs:
     - name: List Docker images
       run: docker images
       
-    - name: Extract Git tag
-      id: get_tag
-      run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+    - name: Extract tag or branch name for Docker tagging
+      id: extract_tag
+      run: |
+        REF_NAME="${GITHUB_REF##*/}"
+        SAFE_TAG=${REF_NAME//\//-}
+        echo "TAG_NAME=$SAFE_TAG" >> $GITHUB_ENV
 
     - name: Tag Docker Images
       run: |
