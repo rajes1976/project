@@ -19,7 +19,7 @@ services:  #versie
   webserver:
     container_name: webserver
     restart: always
-    #image: rajes1976/webserver:v2
+    #image: rajes1976/webserver-v2
     build:
       dockerfile: webserver/Dockerfile
     #deploy:
@@ -43,7 +43,7 @@ services:  #versie
   nodejs:
     container_name: jsapp
     restart: always
-    #image: rajes1976/jsapp:v2
+    #image: rajes1976/jsapp-v2
     build:
       dockerfile: nodejs/Dockerfile
     environment:
