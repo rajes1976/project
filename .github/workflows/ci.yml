@@ -80,4 +80,4 @@ jobs:
         uses: actions/checkout@v3
         
       - name: Run docker-compose
-        run: RELEASE_VERSION=v1.0.3 docker-compose -f docker-compose.deploy.yml up -d
+        run: RELEASE_VERSION=${{ steps.get_tag.outputs.tag }} docker-compose -f docker-compose.deploy.yml up -d
