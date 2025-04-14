@@ -80,4 +80,4 @@ jobs:
         uses: actions/checkout@v3
         
       - name: Run docker-compose
-        run: docker-compose -f docker-compose.deploy.yml up -d
+        run: RELEASE_VERSION=V1.0.3 docker-compose -f docker-compose.deploy.yml up -d

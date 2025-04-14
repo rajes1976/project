@@ -19,7 +19,7 @@ services:  #versie
   webserver:
     #container_name: webserver
     restart: always
-    image: rajes1976/web:webserver-v2
+    image: rajes1976/webserver:${RELEASE_VERSION}
     #build:
       #dockerfile: webserver/Dockerfile
     #deploy:
