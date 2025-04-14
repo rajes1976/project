@@ -34,7 +34,7 @@ jobs:
    
     - name: Validate configuration
       run: docker-compose config
-	  
+      
     - name: Run Docker Compose
       run: docker-compose up -d
       
