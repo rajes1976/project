@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - master
+    tags:
+      - 'v*'
+      
   pull_request:
     branches:
       - master
@@ -31,8 +34,8 @@ jobs:
           sudo chmod +x /usr/local/bin/docker-compose
           docker-compose --version
    
-    - name: Build Docker Images
-      run: docker-compose build
+    #- name: Build Docker Images
+      #run: docker-compose build
 
     - name: Validate configuration
       run: docker-compose config
@@ -40,16 +43,20 @@ jobs:
     - name: List Docker images
       run: docker images
       
+    - name: Extract Git tag
+      id: get_tag
+      run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
     - name: Tag Docker Images
       run: |
-        docker tag project_webserver rajes1976/web:webserver-v2
-        docker tag project_nodejs rajes1976/jsweb:jsapp-v2
-        
+        docker tag project_webserver rajes1976/web:webserver-${TAG_NAME}
+        docker tag project_nodejs rajes1976/jsweb:jsapp-${TAG_NAME}
+
     - name: Push Docker Images to Docker Hub
       run: |
-        docker push rajes1976/web:webserver-v2
-        docker push rajes1976/jsweb:jsapp-v2
-    
+        docker push rajes1976/web:webserver-${TAG_NAME}
+        docker push rajes1976/jsweb:jsapp-${TAG_NAME}
+   
     - name: Run Docker Compose
       run: docker-compose up -d
 
