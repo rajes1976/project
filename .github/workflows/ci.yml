@@ -36,7 +36,7 @@ jobs:
       run: docker-compose config
       
     - name: Run Docker Compose
-      run: docker-compose up -d
+      run: docker-compose -f docker-compose.dev.yml up -d
       
     - name: Test network connectivity
       run: |
