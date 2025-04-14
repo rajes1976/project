@@ -1,0 +1,65 @@
+services:  #versie
+  proxy-server:
+    container_name: proxy-server
+    restart: always
+    image: nginx:latest
+    environment:
+      - TZ=Europe/Amsterdam
+    ports:
+      - "1000:80"
+      - "3000:3000"
+    volumes:
+      - ./reverse_proxy_conf/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - webserver
+      - nodejs
+    networks:
+      - proxy-tier
+      
+  webserver:
+    container_name: webserver
+    restart: always
+    image: rajes1976/webserver:v2
+    #build:
+      #dockerfile: webserver/Dockerfile
+    #deploy:
+      #replicas: 3
+      #update_config:
+        #parallelism: 3
+      #restart_policy:
+        #condition: on-failure
+    environment:
+      - TZ=Europe/Amsterdam
+    volumes:
+      - webvolume:/usr/share/nginx/html
+    networks: 
+      - proxy-tier
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+  nodejs:
+    container_name: jsapp
+    restart: always
+    image: rajes1976/jsapp:v2
+    #build:
+      #dockerfile: nodejs/Dockerfile
+    environment:
+      - TZ=Europe/Amsterdam
+    networks:
+      - proxy-tier
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+
+networks:
+  proxy-tier:
+    name: nginx-proxy
+
+volumes:
+  webvolume:
