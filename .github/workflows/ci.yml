@@ -42,6 +42,9 @@ jobs:
       
     - name: List Docker images
       run: docker images
+
+    - name: Run Docker Compose
+      run: docker-compose up -d
       
     - name: Extract tag or branch name for Docker tagging
       id: extract_tag
@@ -60,9 +63,6 @@ jobs:
         docker push rajes1976/web:webserver-${TAG_NAME}
         docker push rajes1976/jsweb:jsapp-${TAG_NAME}
    
-    - name: Run Docker Compose
-      run: docker-compose up -d
-
     - name: Test network connectivity
       run: |
         docker-compose up -d
