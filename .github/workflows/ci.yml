@@ -41,13 +41,13 @@ jobs:
     - name: List Docker images
       run: docker images
 
-    # Automatically create a Git tag (v1.0.0 hardcoded for now)
+    # Automatically create a Git tag
     - name: Create Git Tag
       if: github.ref == 'refs/heads/master'
       run: |
         TAG_EXISTS=$(git tag --contains HEAD)
         if [ -z "$TAG_EXISTS" ]; then
-          NEW_TAG="v1.0.0"
+          NEW_TAG="v1.0.1"
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git tag $NEW_TAG
