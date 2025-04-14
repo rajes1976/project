@@ -17,7 +17,7 @@ services:  #versie
       - proxy-tier
       
   webserver:
-    container_name: webserver
+    #container_name: webserver
     restart: always
     image: rajes1976/webserver:v2
     #build:
@@ -41,7 +41,7 @@ services:  #versie
       retries: 3
       start_period: 5s
   nodejs:
-    container_name: jsapp
+    #container_name: jsapp
     restart: always
     image: rajes1976/jsapp:v2
     #build:
