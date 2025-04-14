@@ -6,52 +6,84 @@ on:
       - master
     tags:
       - 'v*'
-      
+
   pull_request:
     branches:
       - master
 
 jobs:
+  Auto-Version-Tag:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    outputs:
+      new_tag: ${{ steps.tag_version.outputs.new_tag }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Get latest tag
+        id: get_latest
+        run: |
+          git fetch --tags
+          latest=$(git tag --sort=-v:refname | grep '^v' | head -n 1)
+          echo "LATEST_TAG=$latest" >> $GITHUB_ENV
+
+      - name: Generate next tag
+        id: tag_version
+        run: |
+          if [ -z "$LATEST_TAG" ]; then
+            NEW_TAG="v1.0.0"
+          else
+            VERSION=${LATEST_TAG#v}
+            MAJOR=$(echo $VERSION | cut -d. -f1)
+            MINOR=$(echo $VERSION | cut -d. -f2)
+            PATCH=$(echo $VERSION | cut -d. -f3)
+            PATCH=$((PATCH + 1))
+            NEW_TAG="v$MAJOR.$MINOR.$PATCH"
+          fi
+          echo "new tag will be: $NEW_TAG"
+          echo "new_tag=$NEW_TAG" >> $GITHUB_OUTPUT
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag $NEW_TAG
+          git push origin $NEW_TAG
+
   Continuous-Integration:
+    needs: Auto-Version-Tag
+    if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-    
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1   
-    
+
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-      
+
     - name: Install Docker Compose
       run: |
-          sudo curl -L "https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
-          docker-compose --version
-   
-    #- name: Build Docker Images
-      #run: docker-compose build
+        sudo curl -L "https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        sudo chmod +x /usr/local/bin/docker-compose
+        docker-compose --version
 
     - name: Validate configuration
       run: docker-compose config
-      
+
     - name: List Docker images
       run: docker images
 
     - name: Run Docker Compose
       run: docker-compose up -d
-      
-    - name: Set image tag (branch or tag)
-      id: vars
-      run: |
-        REF=${GITHUB_REF##*/}
-        SAFE_TAG=${REF//\//-}  # vervang eventueel slashes met - voor veiligheid
-        echo "TAG_NAME=$SAFE_TAG" >> $GITHUB_ENV
+
+    - name: Extract Git tag name
+      run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
     - name: Tag Docker Images
       run: |
@@ -62,20 +94,20 @@ jobs:
       run: |
         docker push rajes1976/web:webserver-${TAG_NAME}
         docker push rajes1976/jsweb:jsapp-${TAG_NAME}
-   
+
     - name: Test network connectivity
       run: |
         docker-compose up -d
         sleep 10
         docker exec proxy-server curl -I http://webserver
-        
+
   Continuous-Delivery:
     needs: Continuous-Integration
     runs-on: self-hosted
- 
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
-        
+
       - name: Run docker-compose
         run: docker-compose up -d
