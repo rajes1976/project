@@ -41,7 +41,7 @@ services:  #versie
       retries: 3
       start_period: 5s
   nodejs:
-    container_name: jsapp
+    container_name: nodejs
     restart: always
     #image: rajes1976/jsapp-v2
     build:
