@@ -64,8 +64,8 @@ jobs:
     
     - name: Tag Docker Images
       run: |
-        docker tag project_webserver rajes1976/webserver:${{ steps.get_tag.outputs.tag }}
-        docker tag project_nodejs rajes1976/nodejs:${{ steps.get_tag.outputs.tag }}
+        docker tag project_webserver rajes197/webserver:${{ steps.get_tag.outputs.tag }}
+        docker tag project_nodejs rajes197/nodejs:${{ steps.get_tag.outputs.tag }}
     
     - name: Push Docker Images to Docker Hub
       run: |
