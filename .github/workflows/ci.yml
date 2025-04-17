@@ -84,4 +84,4 @@ jobs:
         
       - name: Run docker-compose
         #run: RELEASE_VERSION=${{ needs.Continuous-Integration.outputs.release_tag }} docker-compose -f docker-compose.deploy.yml up -d
-        run: RELEASE_VERSION=vv1.0.10 docker-compose -f docker-compose.deploy.yml up -d
+        run: RELEASE_VERSION=v1.0.10 docker-compose -f docker-compose.deploy.yml up -d
